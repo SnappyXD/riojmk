@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Decoy — Police Line Prank</title>
+  <style>
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background:#0b0b0b; /* base dark so tapes pop */
+      color:#fff;
+      overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    /* Container for page content */
+    .page{
+      position:relative;
+      width:100%;height:100%;
+      display:flex;align-items:center;justify-content:center;
+      padding:2rem;
+      text-align:center;
+    }
+
+    /* The prank "police tape" layers */
+    .tape-layer{
+      position:absolute;left:-10%;right:-10%;height:120px;overflow:hidden;pointer-events:none;
+      display:flex;align-items:center;
+    }
+
+    /* Reusable tape strip */
+    .tape{
+      display:inline-block;
+      white-space:nowrap;
+      font-weight:800;
+      letter-spacing:2px;
+      font-size:20px;
+      padding:14px 28px;
+      border-radius:6px;
+      margin-right:40px;
+      transform:skewX(-12deg);
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    /* Visual styles for yellow police tape */
+    .tape--yellow{background:linear-gradient(90deg,#f7d84b,#f6c93a);color:#111;border:4px solid rgba(0,0,0,0.15)}
+    .tape--black{background:linear-gradient(90deg,#111,#222);color:#f7d84b;border:4px solid rgba(255,255,255,0.02)}
+
+    /* Different vertical positions and speeds */
+    .layer-1{top:5%;transform:rotate(-9deg);height:90px}
+    .layer-2{top:35%;transform:rotate(-12deg);height:110px}
+    .layer-3{top:65%;transform:rotate(-8deg);height:100px}
+
+    /* Marquee animations - translateX from left to right or right to left */
+    @keyframes marquee-left {
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+    @keyframes marquee-right {
+      from{transform:translateX(-50%)}
+      to{transform:translateX(0)}
+    }
+
+    /* Apply the animation to inner track */
+    .track{
+      display:flex;align-items:center;gap:20px;
+      will-change:transform;
+    }
+    .layer-1 .track{animation:marquee-left 18s linear infinite}
+    .layer-2 .track{animation:marquee-right 26s linear infinite}
+    .layer-3 .track{animation:marquee-left 14s linear infinite}
+
+    /* Main decoy text (center) */
+    .card{
+      position:relative;z-index:40;max-width:960px;padding:48px;border-radius:12px;background:rgba(0,0,0,0.62);
+      backdrop-filter:blur(6px);box-shadow:0 10px 40px rgba(2,6,23,0.7);
+    }
+    h1{font-size:clamp(28px,6vw,58px);margin-bottom:8px}
+    p.lead{opacity:0.85;margin-bottom:18px}
+    p.small{font-size:14px;opacity:0.7}
+
+    /* Small control area (invisible unless hovered) */
+    .controls{position:fixed;left:12px;bottom:12px;z-index:60}
+    .btn{background:rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-size:13px}
+
+    /* Accessibility: respect reduced motion */
+    @media (prefers-reduced-motion:reduce){
+      .track{animation:none}
+    }
+
+    /* Small screens tweaks */
+    @media (max-width:600px){
+      .tape{font-size:14px;padding:10px 18px}
+      .layer-2{display:none} /* reduce clutter */
+    }
+  </style>
+</head>
+<body>
+  <div class="page" role="main">
+
+    <!-- tape layers (each track repeats the same text sequence twice to make smooth loop) -->
+    <div class="tape-layer layer-1" aria-hidden="true">
+      <div class="track">
+        <span class="tape tape--yellow">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--black">CRIME SCENE — KEEP OUT —</span>
+        <span class="tape tape--yellow">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--black">CRIME SCENE — KEEP OUT —</span>
+        <!-- repeated to ensure continuous flow -->
+        <span class="tape tape--yellow">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--black">CRIME SCENE — KEEP OUT —</span>
+      </div>
+    </div>
+
+    <div class="tape-layer layer-2" aria-hidden="true">
+      <div class="track">
+        <span class="tape tape--black">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--yellow">RESTRICTED AREA — AUTHORIZED ONLY —</span>
+        <span class="tape tape--black">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--yellow">RESTRICTED AREA — AUTHORIZED ONLY —</span>
+        <span class="tape tape--black">POLICE LINE — DO NOT CROSS —</span>
+      </div>
+    </div>
+
+    <div class="tape-layer layer-3" aria-hidden="true">
+      <div class="track">
+        <span class="tape tape--yellow">EVIDENCE — DO NOT TOUCH —</span>
+        <span class="tape tape--black">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--yellow">EVIDENCE — DO NOT TOUCH —</span>
+        <span class="tape tape--black">POLICE LINE — DO NOT CROSS —</span>
+        <span class="tape tape--yellow">EVIDENCE — DO NOT TOUCH —</span>
+      </div>
+    </div>
+
+    <!-- Center decoy text -->
+    <div class="card" role="article" aria-labelledby="title">
+      <h1 id="title">rioanakkucaisukarodok540.com</h1>
+      <p class="lead">rio jmk45 suka rodok</p>
+    </div>
+
+    <!-- tiny controls to pause/resume animation for demonstration -->
+    <div class="controls" aria-hidden="false">
+      <button id="toggle" class="btn" title="Pause / Resume animation">Pause</button>
+    </div>
+  </div>
+
+  <script>
+    // Simple toggle to pause/resume the tape animation
+    const btn = document.getElementById('toggle');
+    let paused = false;
+    btn.addEventListener('click', () => {
+      paused = !paused;
+      document.querySelectorAll('.track').forEach(t => {
+        t.style.animationPlayState = paused ? 'paused' : 'running';
+      });
+      btn.textContent = paused ? 'Resume' : 'Pause';
+    });
+
+    // Make tracks wider to allow smoother continuous scroll depending on screen size
+    function expandTracks(){
+      document.querySelectorAll('.track').forEach(track=>{
+        // duplicate inner content until track width > viewport * 2
+        while(track.scrollWidth < window.innerWidth * 2){
+          track.innerHTML += track.innerHTML;
+        }
+      });
+    }
+    expandTracks();
+    window.addEventListener('resize', ()=>{
+      // don't aggressively duplicate on resize; just ensure minimum
+      expandTracks();
+    });
+  </script>
+</body>
+</html>

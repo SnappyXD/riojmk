@@ -1,0 +1,91 @@
+/* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background:#0b0b0b; /* base dark so tapes pop */
+      color:#fff;
+      overflow:hidden;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    /* Container for page content */
+    .page{
+      position:relative;
+      width:100%;height:100%;
+      display:flex;align-items:center;justify-content:center;
+      padding:2rem;
+      text-align:center;
+    }
+
+    /* The prank "police tape" layers */
+    .tape-layer{
+      position:absolute;left:-10%;right:-10%;height:120px;overflow:hidden;pointer-events:none;
+      display:flex;align-items:center;
+    }
+
+    /* Reusable tape strip */
+    .tape{
+      display:inline-block;
+      white-space:nowrap;
+      font-weight:800;
+      letter-spacing:2px;
+      font-size:20px;
+      padding:14px 28px;
+      border-radius:6px;
+      margin-right:40px;
+      transform:skewX(-12deg);
+      box-shadow:0 6px 18px rgba(0,0,0,0.45);
+    }
+
+    /* Visual styles for yellow police tape */
+    .tape--yellow{background:linear-gradient(90deg,#f7d84b,#f6c93a);color:#111;border:4px solid rgba(0,0,0,0.15)}
+    .tape--black{background:linear-gradient(90deg,#111,#222);color:#f7d84b;border:4px solid rgba(255,255,255,0.02)}
+
+    /* Different vertical positions and speeds */
+    .layer-1{top:5%;transform:rotate(-9deg);height:90px}
+    .layer-2{top:35%;transform:rotate(-12deg);height:110px}
+    .layer-3{top:65%;transform:rotate(-8deg);height:100px}
+
+    /* Marquee animations - translateX from left to right or right to left */
+    @keyframes marquee-left {
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+    @keyframes marquee-right {
+      from{transform:translateX(-50%)}
+      to{transform:translateX(0)}
+    }
+
+    /* Apply the animation to inner track */
+    .track{
+      display:flex;align-items:center;gap:20px;
+      will-change:transform;
+    }
+    .layer-1 .track{animation:marquee-left 18s linear infinite}
+    .layer-2 .track{animation:marquee-right 26s linear infinite}
+    .layer-3 .track{animation:marquee-left 14s linear infinite}
+
+    /* Main decoy text (center) */
+    .card{
+      position:relative;z-index:40;max-width:960px;padding:48px;border-radius:12px;background:rgba(0,0,0,0.62);
+      backdrop-filter:blur(6px);box-shadow:0 10px 40px rgba(2,6,23,0.7);
+    }
+    h1{font-size:clamp(28px,6vw,58px);margin-bottom:8px}
+    p.lead{opacity:0.85;margin-bottom:18px}
+    p.small{font-size:14px;opacity:0.7}
+
+    /* Small control area (invisible unless hovered) */
+    .controls{position:fixed;left:12px;bottom:12px;z-index:60}
+    .btn{background:rgba(255,255,255,0.06);color:#fff;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-size:13px}
+
+    /* Accessibility: respect reduced motion */
+    @media (prefers-reduced-motion:reduce){
+      .track{animation:none}
+    }
+
+    /* Small screens tweaks */
+    @media (max-width:600px){
+      .tape{font-size:14px;padding:10px 18px}
+      .layer-2{display:none} /* reduce clutter */
+    }
